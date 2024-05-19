@@ -1,0 +1,43 @@
+body{
+
+    navbutton_background_color: lightblue;
+    background: url("/views/calc.jpg") no-repeat center;
+   background-size: 100%;
+
+}
+.container
+{
+
+    background-color: cornflowerblue;
+    color: blue;
+    border: blue;
+    margin-top: 50px;
+    right: 500px;
+    width: 500px;
+    position: static;
+
+    font-size: 21px;
+    font-weight: bold;
+}
+.box2{
+    text-align: center;
+    color: brown;
+    border: blue;
+    margin-top: -130px;
+    margin-left: 20px;
+    width: 500px;
+    position: static;
+    font-size: 25px;
+    font-weight: bold;
+}
+.box1{
+    background-color: bisque;
+    color: brown;
+    border: blue;
+    margin-top: 50px;
+    right: 500px;
+    width: 500px;
+    position: static;
+    font-size: 21px;
+    font-weight: bold;
+}

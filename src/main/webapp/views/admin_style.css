@@ -1,0 +1,42 @@
+.bg-img1 {
+
+        /* The image used */
+
+        background-color: lightblue;
+        /* Control the height of the image */
+        height: 800px;
+        width: 100%;
+        /* Center and scale the image nicely */
+        background-position: left;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    /* Add styles to the form container */
+.bg-img2 {
+
+    /* The image used */
+
+    background-color: cornflowerblue;
+    /* Control the height of the image */
+    height: 800px;
+    width: 100%;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.bg-img3 {
+
+    /* The image used */
+
+    background-color: darkseagreen;
+    /* Control the height of the image */
+    height: 800px;
+    width: 100%;
+    /* Center and scale the image nicely */
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

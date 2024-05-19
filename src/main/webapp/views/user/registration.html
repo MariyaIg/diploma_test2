@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+<form th:method = "POST" action="/userRegistration-servlet">
+    <div class="mb-3">
+        <label>Фамилия</label><br>
+        <input type="text" id="a" name ="name">
+    </div>
+    <div class="mb-3">
+        <label>Имя пользователя</label><br>
+        <input type="text" id="b" name ="login">
+    </div>
+    <div class="mb-3">
+        <label >Пароль</label><br>
+        <div class="mb-3">
+            <input type="password" id="inputPassword" name="pass">
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+</form>
+
+</body>
+</html>

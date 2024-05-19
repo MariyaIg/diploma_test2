@@ -1,0 +1,26 @@
+@charset "UTF-8";
+body{
+    margin:0;
+    padding: 0;
+    border: 0;
+}
+.box{
+    height: 100vh;
+    background-size: cover;
+    background: url("../img/biznes-47.jpg") no-repeat center;
+    text-align: center;
+}
+h1{
+    font-family: "Century Gothic", serif;
+
+    color: blue;
+    text-decoration: blue;
+    font-size: 50px;
+    font-weight: bold;
+}
+.reg{
+    height: 100vh;
+    background-size: cover;
+    background: url("../img/img.png") no-repeat center;
+    text-align: center;
+}
