@@ -8,18 +8,18 @@ public class Ratios {
     private float operating_margin;
     private float net_margin;
     private float stDebt_burden;
-    private float ltDebt_burden;
+    private float totalDebt_burden;
 
     public Ratios(float equity_ratio, float liquidity_ratio, float sales_growth,
                   float operating_margin, float net_margin, float stDebt_burden,
-                  float ltDebt_burden) {
+                  float totalDebt_burden) {
         this.equity_ratio = equity_ratio;
         this.liquidity_ratio = liquidity_ratio;
         this.sales_growth = sales_growth;
         this.operating_margin = operating_margin;
         this.net_margin = net_margin;
         this.stDebt_burden = stDebt_burden;
-        this.ltDebt_burden = ltDebt_burden;
+        this.totalDebt_burden = totalDebt_burden;
     }
 
     public float getEquity_ratio() {
@@ -70,11 +70,11 @@ public class Ratios {
         this.stDebt_burden = stDebt_burden;
     }
 
-    public float getLtDebt_burden() {
-        return ltDebt_burden;
+    public float getTotalDebt_burden() {
+        return totalDebt_burden;
     }
 
-    public void setLtDebt_burden(float ltDebt_burden) {
-        this.ltDebt_burden = ltDebt_burden;
+    public void setTotalDebt_burden(float totalDebt_burden) {
+        this.totalDebt_burden = totalDebt_burden;
     }
 }

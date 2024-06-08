@@ -1,10 +1,8 @@
 package com.ignateva.servlet;
 
 import com.ignateva.dao.CompanyDao;
-import com.ignateva.entity.Accounts;
-import com.ignateva.entity.Company;
-import com.ignateva.entity.Rating;
-import com.ignateva.entity.User;
+import com.ignateva.entity.*;
+import com.ignateva.service.CalculationService;
 import com.ignateva.service.FormService;
 import com.ignateva.service.UserService;
 import jakarta.servlet.ServletException;
@@ -34,7 +32,7 @@ public class FormServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String title = req.getParameter("title");
         String taxId = req.getParameter("taxId");
-        float code = Float.parseFloat(req.getParameter("industryCode"));
+       String code = req.getParameter("industryCode");
 
         String date = (req.getParameter("date"));
 
@@ -52,18 +50,22 @@ public class FormServlet extends HttpServlet {
         HttpSession session = req.getSession();
         UserService userService=new UserService();
         FormService formService=new FormService();
+        CalculationService calculationService= new CalculationService();
+
         String user_login = String.valueOf(session.getAttribute("login"));
         User user = userService.findUser(user_login);
-        Company company;
-               company= formService.SaveCompany(title, taxId, code);
-        int industryRisk = formService.calculateIndustryRisk(code);
+        Company company= formService.SaveCompany(title, taxId, code);
+
+        Accounts_template accounts_template = new Accounts_template(date, company.getId(), sales, sales_2, operating_profit, net_profit,
+                current_assets, current_liabilities, equity, st_debt, lt_debt, tbs);
         Accounts accounts1 = new Accounts(date, company.getId(), sales, operating_profit, net_profit,
                 current_assets, current_liabilities, equity, st_debt, lt_debt, tbs);
         Accounts accounts2 = new Accounts(formService.dateConvert(date), company.getId(), sales_2);
 
-        String res = formService.saveAccounts(taxId, date, sales, operating_profit, net_profit,
-                current_assets, current_liabilities, equity, st_debt, lt_debt, tbs);
-        String res2 = formService.saveAccounts2(taxId, date, sales_2);
+
+        String res = formService.saveAccounts(accounts1,taxId);
+        String res2 = formService.saveAccounts2(accounts2,taxId);
+        long LocalDate= session.getCreationTime();
 
         req.setAttribute("taxId", taxId);
         req.setAttribute("title", title);
@@ -71,60 +73,25 @@ public class FormServlet extends HttpServlet {
         //req.setAttribute("company",company);
 
         if (Objects.equals(res, "success") && Objects.equals(res, res2)) {
-            int score = formService.calculateScore();
-            int finalScore = formService.calculateFinalScore(score,industryRisk);
-            req.setAttribute("score", score);
-            String position1 = formService.descriptionScore(score);
-            String position2 = formService.descriptionScore(finalScore);
+            Rating rating= calculationService.calculateRating(accounts1,accounts2,user.getId(),new Date(LocalDate));
+          String mess = formService.saveRating(rating);
+            req.setAttribute("mess", mess);
+            req.setAttribute("rating", rating);
+            String position1 = calculationService.descriptionScore(rating.getFinancial_score());
+            String position2 = calculationService.descriptionScore(rating.getTotal_score());
             req.setAttribute("position1", position1);
             req.setAttribute("position2", position2);
-            req.setAttribute("industryRisk", industryRisk);
-            req.setAttribute("finalScore", finalScore);
-
-            long LocalDate= session.getCreationTime();
-
-          company=formService.findCompanyByTaxId(taxId);
-          Rating rating=new Rating(date, company.getId(), score, finalScore,user.getId(),new Date(LocalDate));
-            req.setAttribute("rating", rating);
-         String mess = formService.saveRating(rating);
-            req.setAttribute("mess", mess);
+            req.setAttribute("IndustryRisk", calculationService.calculateIndustryRiskById(company.getId()));
             req.getRequestDispatcher("/rating.jsp").forward(req, resp);
 
         } else {
             req.setAttribute("res", res);
             req.setAttribute("res2", res2);
-            req.setAttribute("accounts1", accounts1);
-            req.setAttribute("accounts2", accounts2);
+          formService.save_accounts_template(accounts_template);
 
             req.getRequestDispatcher("/form.jsp").forward(req, resp);
 
         }
-        /*
-        String[] s = req.getParameterValues("check1");
-        String[] s2 = req.getParameterValues("check2");
 
-        for (int i = 0; i < s.length; i++) {
-            for (int j = 0; j < s2.length; j++) {
-                if (Objects.equals(s[i], "new1")) {
-                    formService.updateAccounts_test(accounts1);
-
-                    if (Objects.equals(s[j], "new2")) {
-                        formService.updateAccounts2_test(accounts2);
-                    }
-
-                    int score = formService.calculateScore();
-                    req.setAttribute("score", score);
-                    req.getRequestDispatcher("/rating.jsp").forward(req, resp);
-                } else {
-                    int score = formService.calculateScoreFromBase(taxId, date);
-
-                    req.setAttribute("score", score);
-                    req.getRequestDispatcher("/rating.jsp").forward(req, resp);
-                }
-            }
-
-        }
-
-    }*/
     }
 }

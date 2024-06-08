@@ -39,4 +39,27 @@
     background-position: left;
     background-repeat: no-repeat;
     background-size: cover;
+
+}
+.table1{
+    border: brown;
+    background-color: bisque;
+
+}
+
+.table1 tr{
+    border:1px solid;
+}
+.res{
+    background-color: cadetblue;
+    background-size: cover;
+}
+#myProgress {
+    width: 100%;
+    background-color: grey;
+}
+#myBar {
+    width: 1%;
+    height: 30px;
+    background-color: green;
 }

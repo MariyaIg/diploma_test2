@@ -28,13 +28,13 @@ public class UserServlet extends HttpServlet {
         UserService userService=new UserService();
         if(userService.checkUser(login,pass)==USER){
             if (session.getAttribute("login") == null) {
-                session.setAttribute("login", req.getParameter("login"));
+                session.setAttribute("login", login);
 
             }
             req.getRequestDispatcher("/form.jsp").forward(req,resp);
         } else if (userService.checkUser(login,pass)==ADMIN){
             if (session.getAttribute("login") == null) {
-                session.setAttribute("login", req.getParameter("login"));
+                session.setAttribute("login", login);
 
             }
             req.getRequestDispatcher("/admin.jsp").forward(req,resp);

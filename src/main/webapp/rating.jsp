@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.ignateva.entity.Rating" %><%--
   Created by IntelliJ IDEA.
   User: Мария
   Date: 11.05.2024
@@ -43,20 +43,20 @@
             <div class="row row-cols-2">
                 <div class="col">Баллы по финансам </div>
                 <div class="col">
-                    <% if (request.getAttribute("score")!=null)%>
-                    <p><%=request.getAttribute("score")%> финансовое состояние:
+                    <% Rating rating = (Rating)(request.getAttribute("rating"));%>
+                    <p><%=rating.getFinancial_score()%> финансовое состояние:
                     <%=request.getAttribute("position1")%></p>
                 </div>
                 <div class="col">Риск отрасли</div>
                 <div class="col">
-                    <% if (request.getAttribute("industryRisk")!=null)%>
-                    <p><%=request.getAttribute("industryRisk")%>
+
+                    <p><%=request.getAttribute("IndustryRisk")%>
                     </p>
                 </div>
                 <div class="col">Итоговый рейтинг</div>
                 <div class="col">
-                    <% if (request.getAttribute("finalScore")!=null)%>
-                    <p><%=request.getAttribute("finalScore")%> балл с учетом отрасли:
+
+                    <p><%=rating.getTotal_score()%> балл с учетом отрасли:
                         <%=request.getAttribute("position2")%></p>
 
                     </div>
@@ -87,15 +87,10 @@
    </div>
 
 <div class ="container">
-    <form method = POST action="result-servlet">
-        <% if (request.getAttribute("rating")!=null)%>
-        <input type="hidden" name ="rating" value =<%=request.getAttribute("rating")%>>
-        <input type="hidden" name ="title" value =${param.title}>
-        <input type="hidden" name="taxId" value=${param.taxId}>
-        <input type="hidden" name="date" value=${param.date}>
-        <button type="submit" class="btn btn-success">Coxранить оценку</button>
 
-    </form>
+        <% if (request.getAttribute("mess")!=null)%>
+        <p><%=request.getAttribute("mess")%></p>
+
 </div>
 
 

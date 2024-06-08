@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Industry {
     private int id;
     private String title;
-    private float code;
+    private String code;
     private int risk;
 
     public int getRisk() {
@@ -16,9 +16,18 @@ public class Industry {
         this.risk = risk;
     }
 
-    public Industry(String title, float code) {
+    public Industry(String title, String code) {
         this.title = title;
         this.code = code;
+    }
+
+    public Industry() {
+    }
+
+    public Industry(String title, String code, int risk) {
+        this.title = title;
+        this.code = code;
+        this.risk = risk;
     }
 
     @Override
@@ -33,13 +42,14 @@ public class Industry {
     public String toString() {
         return "Industry{" +
                 "title='" + title + '\'' +
-                ", code='" + code + '\'' +
+                ", code=" + code +
+                ", risk=" + risk +
                 '}';
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, code);
+        return Objects.hash(title, code, risk);
     }
 
     public int getId() {
@@ -55,11 +65,11 @@ public class Industry {
         this.title = title;
     }
 
-    public float getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(float code) {
+    public void setCode(String code) {
         this.code = code;
     }
 }

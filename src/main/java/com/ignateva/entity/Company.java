@@ -20,6 +20,13 @@ public class Company {
         this.industry_id = industry_id;
     }
 
+    public Company(int id, String title, String taxId, int industry_id) {
+        this.id = id;
+        this.title = title;
+        this.taxId = taxId;
+        this.industry_id = industry_id;
+    }
+
     public int getId() {
         return id;
     }

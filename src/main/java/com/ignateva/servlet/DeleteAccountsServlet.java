@@ -18,7 +18,7 @@ public class DeleteAccountsServlet extends HttpServlet {
         String date = req.getParameter("date");
         FormService formService = new FormService();
 
-        formService.deleteAccounts(taxId,date);
+        formService.deleteAccounts(date,taxId);
         req.getRequestDispatcher("/admin.jsp").forward(req, resp);
     }
 }

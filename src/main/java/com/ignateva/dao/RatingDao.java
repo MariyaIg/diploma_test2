@@ -24,6 +24,24 @@ public class RatingDao {
             throw new RuntimeException(e);
         }
     }
+    public void updateRating (Rating rating){
+        String query ="update ratings set financial_score = (?), total_score = (?), user_id= (?), calculation_date =(?) where company_id= (?) and date =(?)";
+        try(Connection connection = DBManager.createConnection();
+            PreparedStatement preparedStatement =connection.prepareStatement(query);){
+            preparedStatement.setInt(1,rating.getFinancial_score());
+            preparedStatement.setInt(2,rating.getTotal_score());
+            preparedStatement.setInt(3,rating.getUser_id());
+            preparedStatement.setDate(4,rating.getCalculation_date());
+            preparedStatement.setInt(5,rating.getCompany_id());
+            preparedStatement.setString(6,rating.getDate());
+            preparedStatement.execute();
+        }
+        catch(
+                SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
     public Rating find (int company_id, String date) {
         Rating rating= null;
         String query = "select * from ratings where company_id = (?) and date =(?)";

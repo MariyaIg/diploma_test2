@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.ignateva.entity.Accounts" %><%--
   Created by IntelliJ IDEA.
   User: Мария
   Date: 05.05.2024
@@ -112,23 +112,16 @@
 
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
-<div class ="container">
-    <form method = POST action="result-servlet">
-        <input type="hidden" name ="title" value =${param.title}>
-        <input type="hidden" name="taxId" value=${param.taxId}>
-        <input type="hidden" name="date" value=${param.date}>
-    <button type="submit" class="btn btn-success">Рассчитать</button>
 
-    </form>
-</div>
 <div class="alert">
+    <% if (request.getAttribute("res")!=null ||  (request.getAttribute("res2")!=null)){%>
     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-    <% if (request.getAttribute("res")!=null)%>
+    <% if (request.getAttribute("res")!=null){%>
     <p><%=request.getAttribute("res")%></p>
-    <p><%request.getAttribute("accounts1");%></p>
-    <form method = POST action="form-servlet">
+
+    <form method = POST action="result-servlet">
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="check1" id="flexRadioDefault1" value = <%request.getAttribute("accounts1");%>>
+            <input class="form-check-input" type="radio" name="check1" id="flexRadioDefault1" value = "new1">
             <label class="form-check-label" for="flexRadioDefault1">
                 обновить данные за текущий период
             </label>
@@ -139,13 +132,13 @@
                 использовать существующие
             </label>
         </div>
+            <%}%>
+        <p><% if (request.getAttribute("res2")!=null){%></p>
+        <p><%=request.getAttribute("res2")%></p>
 
-    <% if (request.getAttribute("res2")!=null)%>
-    <p><%=request.getAttribute("res2")%></p>
-    <p><%request.getAttribute("accounts2");%></p>
-        <form method = POST action="form-servlet">
+        <form method = POST action="result-servlet">
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="check2" id="flexRadioDefault3" value = <%request.getAttribute("accounts2");%>>
+                <input class="form-check-input" type="radio" name="check2" id="flexRadioDefault3" value = "new2">
                 <label class="form-check-label" for="flexRadioDefault1">
                     обновить данные по выручке за прошлый период
                 </label>
@@ -157,8 +150,9 @@
                 </label>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-
+        </form>
+            <%}%>
+            <%}%>
 </div>
 
 </body>
