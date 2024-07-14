@@ -1,10 +1,8 @@
 package com.ignateva.servlet;
 
-import com.ignateva.dao.CompanyDao;
+
 import com.ignateva.entity.*;
-import com.ignateva.service.CalculationService;
-import com.ignateva.service.FormService;
-import com.ignateva.service.UserService;
+import com.ignateva.service.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,20 +12,25 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.time.LocalDate;
-import java.util.Locale;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import java.util.Objects;
 
 @WebServlet (name = "FormServlet", value ="/form-servlet")
 public class FormServlet extends HttpServlet {
+    public String filename;
 
+    public String getFilename() {
+        return filename;
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/form.jsp").forward(req, resp);
 
     }
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String title = req.getParameter("title");
@@ -50,10 +53,19 @@ public class FormServlet extends HttpServlet {
         HttpSession session = req.getSession();
         UserService userService=new UserService();
         FormService formService=new FormService();
-        CalculationService calculationService= new CalculationService();
+        //заменено на_2
+        CalculationService2 calculationService= new CalculationService2();
 
         String user_login = String.valueOf(session.getAttribute("login"));
-        User user = userService.findUser(user_login);
+        User user;
+
+        if (Objects.equals(user_login, "null")){
+            String login = "admin";
+            user = userService.findUser(login);
+        }
+        else {
+            user = userService.findUser(user_login);
+        }
         Company company= formService.SaveCompany(title, taxId, code);
 
         Accounts_template accounts_template = new Accounts_template(date, company.getId(), sales, sales_2, operating_profit, net_profit,
@@ -62,15 +74,12 @@ public class FormServlet extends HttpServlet {
                 current_assets, current_liabilities, equity, st_debt, lt_debt, tbs);
         Accounts accounts2 = new Accounts(formService.dateConvert(date), company.getId(), sales_2);
 
-
         String res = formService.saveAccounts(accounts1,taxId);
         String res2 = formService.saveAccounts2(accounts2,taxId);
         long LocalDate= session.getCreationTime();
-
         req.setAttribute("taxId", taxId);
         req.setAttribute("title", title);
         req.setAttribute("date", date);
-        //req.setAttribute("company",company);
 
         if (Objects.equals(res, "success") && Objects.equals(res, res2)) {
             Rating rating= calculationService.calculateRating(accounts1,accounts2,user.getId(),new Date(LocalDate));
@@ -82,6 +91,22 @@ public class FormServlet extends HttpServlet {
             req.setAttribute("position1", position1);
             req.setAttribute("position2", position2);
             req.setAttribute("IndustryRisk", calculationService.calculateIndustryRiskById(company.getId()));
+            req.setAttribute("riskDescription", calculationService.descriptionRisk(calculationService.calculateIndustryRiskById(company.getId())));
+
+            //попытка сразу сохранить в файл
+            List<String> list =new ArrayList<>();
+            list.add(company.getTitle());
+            list.add(company.getTaxId());
+            list.add(accounts_template.getDate());
+            list.add(position2);
+            list.add(rating.toString());
+            list.add(user.getName());
+
+
+            CreateExcelFile createExcelFile=new CreateExcelFile();
+            filename= createExcelFile.createFile(list);
+
+
             req.getRequestDispatcher("/rating.jsp").forward(req, resp);
 
         } else {
@@ -92,6 +117,5 @@ public class FormServlet extends HttpServlet {
             req.getRequestDispatcher("/form.jsp").forward(req, resp);
 
         }
-
     }
 }

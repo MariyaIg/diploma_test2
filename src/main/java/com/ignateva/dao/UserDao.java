@@ -1,6 +1,7 @@
 package com.ignateva.dao;
 
 import com.ignateva.DBManager;
+import com.ignateva.entity.CompanyResult;
 import com.ignateva.entity.User;
 import com.ignateva.servlet.UserType;
 
@@ -76,8 +77,6 @@ public class UserDao {
             throw new RuntimeException(e);
         }
     }
-
-
     public UserType check (String login,String pass){
         UserType userType = UserType.GUEST;
 
@@ -104,6 +103,28 @@ public class UserDao {
         return userType;
     }
 
+    public List<User> selectAll(){
+        List<User> users =new ArrayList<>();
+        String query = "SELECT * from users";
 
+        try (Connection connection = DBManager.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);) {
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+
+               User user=new User();
+                user.setName(resultSet.getString(2));
+                user.setLogin(resultSet.getString(3));
+
+                users.add(user);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return users;
+    }
 
 }

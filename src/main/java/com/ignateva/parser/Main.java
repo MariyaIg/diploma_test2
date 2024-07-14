@@ -2,6 +2,7 @@ package com.ignateva.parser;
 
 import com.ignateva.entity.Industry;
 import com.ignateva.service.FormService;
+import com.ignateva.service.LoadService;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,8 +16,8 @@ public class Main {
 
         ReadExlFile3 readExlFile =new ReadExlFile3();
       //  Map<Integer, Industry> data = readExlFile.parseFile(filePart);
-        FormService formService=new FormService();
-        String mess = formService.createIndustriesFromFile();
+        LoadService loadService=new LoadService();
+        String mess = loadService.createIndustriesFromFile();
 
        // System.out.println(data.values().toString());
 

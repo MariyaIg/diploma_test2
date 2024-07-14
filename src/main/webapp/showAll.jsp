@@ -22,8 +22,9 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
 
-                <a class="nav-link" href="views/user/enter_page.html">EXIT</a>
-                <a class="nav-link" href="admin.jsp">Admin page</a>
+                <a class="nav-link" href="views/user/enter_page.html">Выход</a>
+                <a class="nav-link" href="admin.html">Назад</a>
+                <a class="nav-link" href="form.jsp">К форме</a>
             </div>
         </div>
     </div>

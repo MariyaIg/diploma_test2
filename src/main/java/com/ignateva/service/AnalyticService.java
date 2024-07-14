@@ -13,13 +13,21 @@ public class AnalyticService {
     public List<CompanyResult> getCompanyList() {
         CompanyDao companyDao= new CompanyDao();
 
-
         return companyList = companyDao.selectAll();
     }
 
     public CompanyResult getCompanyResult(String taxId){
         CompanyDao companyDao= new CompanyDao();
-
         return companyDao.selectCompanyResult(taxId);
+    }
+    public List<CompanyResult> getCompanyListOldRating(String date) {
+        CompanyDao companyDao= new CompanyDao();
+
+        return companyList = companyDao.selectAllByDate(date);
+    }
+    public List<CompanyResult> getCompanyListUsersRating(String login) {
+        CompanyDao companyDao= new CompanyDao();
+
+        return companyList = companyDao.selectByUsers(login);
     }
 }

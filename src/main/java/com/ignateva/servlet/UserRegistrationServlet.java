@@ -9,13 +9,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+
 
 @WebServlet (name = "UserRegistrationServlet",value = "/userRegistration-servlet")
 public class UserRegistrationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //req.getRequestDispatcher("/registration.html").forward(req, resp);
+
         String name = req.getParameter("name");
         String login = req.getParameter("login");
         String pass = req.getParameter("pass");
@@ -26,7 +26,7 @@ public class UserRegistrationServlet extends HttpServlet {
 
         UserService userService = new UserService();
         userService.createUser(user);
-        req.getRequestDispatcher("/views/user/enter_page.html").forward(req, resp);
+        req.getRequestDispatcher("/admin.html").forward(req, resp);
 
 
     }

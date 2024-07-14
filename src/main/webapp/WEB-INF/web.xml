@@ -11,6 +11,13 @@
 
   <display-name>Archetype Created Web Application</display-name>
 
+  <context-param>
+    <description>Location to store uploaded file</description>
+    <param-name>file-upload</param-name>
+    <param-value>
+      C:\Users\Мария\apache-tomcat-10.1.19\apache-tomcat-10.1.19\webapps\diploma_test2_war
+    </param-value>
+  </context-param>
 
 
 </web-app>

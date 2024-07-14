@@ -37,22 +37,8 @@ UserDao userDao=new UserDao();
     }
 
     public List<User> getAll() {
-        List<User> users = new ArrayList<>();
-        try (Connection connection = DBManager.createConnection();
-             Statement statement = connection.createStatement();) {
-            ResultSet resultSet = statement.executeQuery("SELECT*from users");
-            while (resultSet.next()) {
 
-                String name = resultSet.getString(2);
-                String login = resultSet.getString(3);
-                String pass = resultSet.getString(4);
-                users.add(new User(name, login, pass));
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return users;
+        return userDao.selectAll();
 
     }
 

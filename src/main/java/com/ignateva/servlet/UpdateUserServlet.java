@@ -17,11 +17,8 @@ public class UpdateUserServlet extends HttpServlet {
         String login_upd = req.getParameter("login1");
         String pass = req.getParameter("pass");
 
-
         UserService userService = new UserService();
-
         userService.updateUser(login_upd, pass);
-        req.getRequestDispatcher("/admin.jsp").forward(req, resp);
-
+        req.getRequestDispatcher("/admin.html").forward(req, resp);
     }
 }

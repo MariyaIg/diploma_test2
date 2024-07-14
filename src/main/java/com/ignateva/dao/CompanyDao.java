@@ -139,6 +139,60 @@ public class CompanyDao {
 
         return companyResult;
     }
+
+    public List<CompanyResult> selectAllByDate(String date){
+        List<CompanyResult> companyList =new ArrayList<>();
+        String query = "SELECT * from companies join industries i on i.id = companies.industry_id " +
+                "join ratings r on companies.id = r.company_id where date !=(?)";
+
+        try (Connection connection = DBManager.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);) {
+            preparedStatement.setString(1, date);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+
+                CompanyResult companyResult=new CompanyResult();
+                companyResult.setTitle(resultSet.getString(3));
+                companyResult.setTaxId(resultSet.getString(2));
+                companyResult.setIndustry_risk(resultSet.getInt(8));
+                companyResult.setFinal_score(resultSet.getInt(13));
+                companyResult.setAccounts_date(resultSet.getString(10));
+                companyList.add(companyResult);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return companyList;
+    }
+
+    public List<CompanyResult> selectByUsers(String login) {
+        List<CompanyResult> companyList =new ArrayList<>();
+        String query = "SELECT * from companies join industries i on i.id = companies.industry_id join ratings r on companies.id = r.company_id\n" +
+                "    join users u on r.user_id = u.id where login =(?)";
+
+        try (Connection connection = DBManager.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);) {
+            preparedStatement.setString(1, login);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+
+                CompanyResult companyResult=new CompanyResult();
+                companyResult.setTitle(resultSet.getString(3));
+                companyResult.setTaxId(resultSet.getString(2));
+                companyResult.setIndustry_risk(resultSet.getInt(8));
+                companyResult.setFinal_score(resultSet.getInt(13));
+                companyResult.setAccounts_date(resultSet.getString(10));
+                companyList.add(companyResult);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return companyList;
+    }
 }
 
 

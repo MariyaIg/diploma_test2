@@ -23,7 +23,7 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="views/user/enter_page.html">EXIT</a>
+                    <a class="nav-link" href="views/user/enter_page.html">ВЫХОД</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="form.jsp">К форме</a>
@@ -51,7 +51,7 @@
                 <div class="col">
 
                     <p><%=request.getAttribute("IndustryRisk")%>
-                    </p>
+                   <%=request.getAttribute("riskDescription")%></p>
                 </div>
                 <div class="col">Итоговый рейтинг</div>
                 <div class="col">
@@ -92,6 +92,17 @@
         <p><%=request.getAttribute("mess")%></p>
 
 </div>
+
+
+<div class="containerX">
+    <form th:method = POST action = "downloadFile-servlet"  >
+        <img src="views/user/resources/img/img_excel.png" alt="excel" style="width:100%">
+        <button type="submit" class="btn">Выгрузить</button>
+
+    </form>
+
+</div>
+
 
 
 

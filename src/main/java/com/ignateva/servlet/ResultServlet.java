@@ -1,9 +1,7 @@
 package com.ignateva.servlet;
 
 import com.ignateva.entity.*;
-import com.ignateva.service.CalculationService;
-import com.ignateva.service.FormService;
-import com.ignateva.service.UserService;
+import com.ignateva.service.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,10 +12,18 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @WebServlet(value = "/result-servlet")
 public class ResultServlet extends HttpServlet {
+    public String filename;
+
+    public String getFilename() {
+        return filename;
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/form.jsp").forward(req, resp);
@@ -28,10 +34,19 @@ public class ResultServlet extends HttpServlet {
         FormService formService = new FormService();
         HttpSession session = req.getSession();
         UserService userService = new UserService();
-        CalculationService calculationService = new CalculationService();
+        //заменено на_2
+        CalculationService2 calculationService = new CalculationService2();
         long LocalDate = session.getCreationTime();
+        User user;
         String user_login = String.valueOf(session.getAttribute("login"));
-        User user = userService.findUser(user_login);
+        if (Objects.equals(user_login, "null")){
+            String login = "admin";
+            user = userService.findUser(login);
+        }
+        else {
+            user = userService.findUser(user_login);
+        }
+
 
         String s = req.getParameter("check1");
         String s2 = req.getParameter("check2");
@@ -42,10 +57,7 @@ public class ResultServlet extends HttpServlet {
         req.setAttribute("date", accounts_template.getDate());
         Rating rating = new Rating();
         if ("old1".equals(s) && "old2".equals(s2)) {
-            //проверить может есть посчитанный рейтинг уже, если нет,то далее
             rating = calculationService.calculateRatingFromBase(company.getTaxId(), accounts_template.getDate(), user.getId(), new Date(LocalDate));
-
-
         }
         if ("new1".equals(s) && "new2".equals(s2)) {
             Accounts accounts1 = new Accounts(accounts_template.getDate(), accounts_template.getCompany_id(), accounts_template.getSales(),
@@ -58,7 +70,6 @@ public class ResultServlet extends HttpServlet {
 
             formService.updateAccounts(accounts1);
             formService.updateAccounts2(accounts2);
-
         }
         if ("new1".equals(s) && "old2".equals(s2)) {
             Accounts accounts1 = new Accounts(accounts_template.getDate(), accounts_template.getCompany_id(), accounts_template.getSales(),
@@ -66,7 +77,6 @@ public class ResultServlet extends HttpServlet {
                     accounts_template.getCurrent_liabilities(), accounts_template.getEquity(), accounts_template.getSt_debt(),
                     accounts_template.getLt_debt(), accounts_template.getTbs());
             formService.updateAccounts(accounts1);
-
             Accounts accounts2 = formService.selectAccountsFromBase(accounts_template);
             rating = calculationService.calculateRating(accounts1, accounts2, user.getId(), new Date(LocalDate));
         }
@@ -76,7 +86,6 @@ public class ResultServlet extends HttpServlet {
                     accounts_template.getSales_2());
             formService.updateAccounts2(accounts2);
             rating = calculationService.calculateRating(accounts1, accounts2, user.getId(), new Date(LocalDate));
-
         }
         req.setAttribute("rating", rating);
         String mess = formService.saveRating(rating);
@@ -84,9 +93,36 @@ public class ResultServlet extends HttpServlet {
        formService.deleteAccountsTemplate(accounts_template);
         String position1 = calculationService.descriptionScore(rating.getFinancial_score());
         String position2 = calculationService.descriptionScore(rating.getTotal_score());
+
+        int risk = calculationService.calculateIndustryRiskById(company.getId());
+        String riskDescription;
+        if (risk == 3) {
+            riskDescription = "Высокий";
+        }
+        else if (risk == 2) {
+            riskDescription = "Средний";
+        }
+        else  {
+            riskDescription = "Низкий";
+        }
+//попытка сразу сохранить в файл
+        List<String> list =new ArrayList<>();
+        list.add(company.getTitle());
+        list.add(company.getTaxId());
+        list.add(accounts_template.getDate());
+        list.add(position2);
+        list.add(rating.toString());
+        list.add(user.getName());
+
+
+        CreateExcelFile createExcelFile=new CreateExcelFile();
+       filename= createExcelFile.createFile(list);
+        //---------------------------------------
+
         req.setAttribute("position1", position1);
         req.setAttribute("position2", position2);
-        req.setAttribute("IndustryRisk", calculationService.calculateIndustryRiskById(company.getId()));
+        req.setAttribute("IndustryRisk", risk);
+        req.setAttribute("riskDescription", riskDescription);
         req.getRequestDispatcher("/rating.jsp").forward(req, resp);
 
     }

@@ -14,6 +14,16 @@
     <style>
         <%@include file="views/form_style.css"%>
     </style>
+    <script>
+        function validTBS() // javascript function is created
+        {
+            if (document.getElementById(1700) < document.getElementById(1500)) {
+                alert("не может такого быть"); //java script message will be display
+                document.getElementById(1700).focus();
+                return false;
+            }
+        }
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -23,7 +33,7 @@
 
             <div class="navbar-nav">
 
-                <a class="nav-link" href="views/user/enter_page.html">EXIT</a>
+                <a class="nav-link" href="views/user/enter_page.html">ВЫХОД</a>
 
             </div>
         </div>
@@ -33,10 +43,11 @@
         <h1>
         Заполните
         </h1>
-         <form method = POST action="form-servlet">
+
+         <form method = POST name = "form" action="form-servlet" onsubmit="return validTBS();">
             <div class="mb-3">
                 <label>Наименование компании</label><br>
-                <input type="text" id="title" name ="title">
+                <input type="text" required id="title" name ="title">
             </div>
 
             <div class="mb-3">
@@ -48,7 +59,7 @@
             <div class="mb-3">
                 <label >ОКВЭД</label><br>
                 <div class="mb-3">
-                    <input type="text" id="industry" name="industryCode">
+                    <input type="text" required id="industry" name="industryCode">
                 </div>
             </div>
 
@@ -69,48 +80,48 @@
         <tbody>
         <tr>
             <td>Текущие активы (РСБУ стр 1200 ф1)</td>
-            <td><input type="number" id="1200" name="1200"></td>
+            <td><input type="number" required id="1200" name="1200"></td>
         </tr>
         <tr>
             <td>Собственный капитал (РСБУ стр 1300 ф1)</td>
-            <td><input type="number" id="1300" name="1300"></td>
+            <td><input type="number" required id="1300" name="1300"></td>
         </tr>
         <tr>
             <td>Текущие обязательства (РСБУ стр 1500 ф1)</td>
-            <td><input type="number" id="1500" name="1500"></td>
+            <td><input type="number" required id="1500" name="1500"></td>
         </tr>
         <tr>
             <td>Долгосрочный долг (РСБУ стр 1410 ф1)</td>
-            <td><input type="number" id="1410" name="1410"></td>
+            <td><input type="number" required id="1410" name="1410"></td>
         </tr>
         <tr>
             <td>Краткосрочный долг (РСБУ стр 1510 ф1)</td>
-            <td><input type="number" id="1510" name="1510"></td>
+            <td><input type="number" required id="1510" name="1510"></td>
         </tr>
         <tr>
             <td>Валюта баланса (РСБУ стр 1700 ф1)</td>
-            <td><input type="number" id="1700" name="1700"></td>
+            <td><input type="number" required id="1700" name="1700" onbeforeinput="validTBS()"></td>
         </tr>
         <tr>
             <td>Выручка текущий период (РСБУ стр 2110 ф2)</td>
-            <td><input type="number" id="2110" name="2110"></td>
+            <td><input type="number" required id="2110" name="2110"></td>
         </tr>
         <tr>
             <td>Выручка прошлый период (РСБУ стр 2110 ф2)</td>
-            <td><input type="number" id="2110_2" name="2110_2"></td>
+            <td><input type="number"  required id="2110_2" name="2110_2"></td>
         </tr>
         <tr>
             <td>Прибыль операционная/от продаж (РСБУ стр 2200 ф2)</td>
-            <td><input type="number" id="2200" name="2200"></td>
+            <td><input type="number" required id="2200" name="2200"></td>
         </tr>
         <tr>
             <td>Прибыль чистая (РСБУ стр 2400 ф2)</td>
-            <td><input type="number" id="2400" name="2400"></td>
+            <td><input type="number" required id="2400" name="2400"></td>
         </tr>
         </tbody>
     </table>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Рассчитать</button>
 </form>
 
 <div class="alert">
@@ -149,7 +160,7 @@
                     использовать прежние
                 </label>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Рассчитать</button>
         </form>
             <%}%>
             <%}%>

@@ -1,8 +1,10 @@
-<%@ page import="com.ignateva.entity.CompanyResult" %><%--
+<%@ page import="com.ignateva.entity.CompanyResult" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.ignateva.entity.User" %><%--
   Created by IntelliJ IDEA.
   User: Мария
   Date: 28.05.2024
-  Time: 19:05
+  Time: 17:22
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -12,7 +14,7 @@
         <%@include file="views/admin_style.css"%>
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <title>Информация о Компании</title>
+    <title>Компании и рейтинги</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -29,36 +31,31 @@
     </div>
 </nav>
 <div class ="res">
-    <table class="table1">
-        <thead>
-        <h1>Информация о компании</h1>
-        <tr>
-            <th scope="col">ИНН</th>
-            <th scope="col">Наименование</th>
-            <th scope="col">Риск отрасли </th>
-            <th scope="col">Итоговый балл/актуальный </th>
-            <th scope="col">Отчетная дата/последняя актуальная </th>
-        </tr>
-        </thead>
-        <tbody>
+<table class="table1">
+    <thead>
+    <h1>Список пользователей</h1>
+    <tr>
+        <th scope="col">Имя</th>
+        <th scope="col">Логин</th>
 
-        <%CompanyResult c = (CompanyResult) request.getAttribute("companyResult");%>
+    </tr>
+    </thead>
+    <tbody>
 
-        <p>
-
+    <%List<User> lc = (List)request.getAttribute("users");%>
+    <p>
+            <%for (User c: lc) {%>
             <tr>
-                <td><%=c.getTaxId()%></td>
-                <td><%=c.getTitle()%></td>
-                <td><%=c.getIndustry_risk()%></td>
-                <td><%=c.getFinal_score()%></td>
-                <td><%=c.getAccounts_date()%></td>
+                <td><%=c.getName()%></td>
+                <td><%=c.getLogin()%></td>
+
             </tr>
+            <%}%>
 
+    </p>
 
-        </p>
-
-        </tbody>
-    </table>
+    </tbody>
+</table>
 </div>
 </body>
 

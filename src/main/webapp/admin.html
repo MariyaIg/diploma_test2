@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>страница админ тест</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="/views/style_admin_html.css" rel="stylesheet">
+
+    <style>
+        .accordion {
+            background-color: #eee;
+            color: #444;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            transition: 0.4s;
+        }
+
+        .active, .accordion:hover {
+            background-color: #ccc;
+        }
+
+        .accordion:after {
+            content: '\002B';
+            color: #777;
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+        }
+
+        .active:after {
+            content: "\2212";
+        }
+
+        .panel {
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+    </style>
+
+</head>
+<body>
+<button class="tablink" onclick="openPage('Home', this, 'rosybrown')">Главная</button>
+<button class="tablink" onclick="openPage('Users', this, 'lightseagreen')" id="defaultOpen">Пользователи</button>
+<button class="tablink" onclick="openPage('Base', this, 'lightblue')">База</button>
+<button class="tablink" onclick="openPage('Statistics', this, 'burlywood')">Статистика</button>
+<div id="Home" class="tabcontent">
+    <h3>Главная</h3>
+    <p>Это страница Администратора...</p>
+
+    <a href="/form.jsp"><p>Внести данные/заполнить форму</p></a>
+
+
+    <button class="button"  onclick="location.href='/views/user/enter_page.html'" ><span>Выход </span></button>
+
+
+
+</div>
+
+<div id="Users" class="tabcontent">
+    <h3>Действия с пользователями</h3>
+    <a href="/showAllUsers-servlet"> <p>Список пользователей</p></a>
+    <div class="row">
+        <div class="column">
+            <img src="/views/user/resources/img/img_reg.png" alt="registration" style="width:100%"><br>
+            <p>Регистрация</p>
+            <form th:method = "POST" action="/userRegistration-servlet">
+                <div class="mb-3">
+                    <label>Фамилия</label><br>
+                    <input type="text" id="a" name ="name">
+                </div>
+                <div class="mb-3">
+                    <label>Имя пользователя</label><br>
+                    <input type="text" id="b" name ="login">
+                </div>
+                <div class="mb-3">
+                    <label >Пароль</label><br>
+                    <div class="mb-3">
+                        <input type="password" id="inputPassword1" name="pass">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Регистрация</button>
+
+            </form>
+
+        </div>
+        <div class="column">
+            <img src="/views/user/resources/img/img_update2.png" alt="update" style="width:100%"><br>
+            <p>Смена пароля</p>
+            <form th:method = POST action="/updateUser-servlet">
+                <div class="mb-3">
+                    <label>Имя пользователя(login)</label><br>
+                    <input type="text" id="login1" name ="login1"><br>
+                    <label >Новый Пароль</label><br>
+                    <div class="mb-3">
+                        <input type="password" id="inputPassword" name="pass">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Выполнить</button>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="column">
+            <img src="views/user/resources/img/img_delete.png" alt="delete" style="width:100%"><br>
+            <p>Удаление пользователя</p>
+            <form th:method = POST action="/deleteUser-servlet">
+                <div class="mb-3">
+                    <label>Имя пользователя(login)</label><br>
+                    <input type="text" id="login2" name ="login2">
+                    <button type="submit" class="btn btn-primary">Выполнить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+<div id="Base" class="tabcontent">
+    <h3>Действия с Базой</h3>
+    <div class="row">
+        <div class="column">
+            <img src="views/user/resources/img/img_addToBase2.png" alt="registration" style="width:100%"><br>
+            <p>загрузить риски из файла excel </p>
+            <form th:method = POST action = "/InitLoad-servlet" >
+
+                <input type="text"    name="filePath">
+                <button type="submit" class="btn btn-primary">Отправить</button>
+
+            </form>
+
+
+
+
+            <p>актуализировать риски отраслей excel </p>
+            <form th:method = POST action = "/loadFilePath-servlet" onload="myFunction()">
+
+                <input type="text"    name="filePath">
+                <button type="submit" class="btn btn-primary">Отправить</button>
+
+            </form>
+            <!--<- ВРЕМЕННО ПРОБА ФАЙЛОМ--
+            <p>ТЕСТ и риски из файла excel </p>
+            <form th:method = POST action = "/loadFile-servlet" enctype="multipart/form-data" >
+                <input type="file" name="file" content ="multipart/form-data" accept=".xls,.xlsx"  class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </form>
+            -->
+
+        </div>
+        <div class="column">
+            <img src="views/user/resources/img/img_delFBase.png" alt="update" style="width:100%"><br>
+            <p>Удалить отчетность из Базы</p>
+            <form th:method = POST action="/deleteAccounts-servlet">
+                <div class="mb-3">
+                    <label >ИНН</label><br>
+                    <div class="mb-3">
+                        <input type="number" required id="tax" name="taxId">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label >Отчетный период</label><br>
+                    <div class="mb-3">
+                        <input type="date" required id=date name="date">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Выполнить</button>
+
+                </div>
+
+            </form>
+        </div>
+
+        <div class="column">
+            <img src="views/user/resources/img/img_delFBase.png" alt="delete" style="width:100%"><br>
+
+            <p>Удалить компанию из Базы</p>
+            <p>(удаляется вместе с отчетностью и рейтингами)</p>
+            <form th:method = POST action="/deleteCompany-servlet">
+                <div class="mb-3">
+                    <label >ИНН</label><br>
+                    <div class="mb-3">
+                        <input type="number" required id="tax2" name="taxId">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Выполнить</button>
+                </div>
+
+            </form>
+
+
+        </div>
+    </div>
+
+
+
+
+
+
+</div>
+
+<div id="Statistics" class="tabcontent">
+    <h3>Статистика</h3>
+
+    <button class="accordion">Показать все компании и их рейтинги</button>
+    <div class="panel">
+        <a href="/show-servlet"> <p>Показать все компании и их рейтинги</p></a>
+    </div>
+
+    <button class="accordion">Показать информацию о компании по ИНН</button>
+    <div class="panel">
+        <form th:method = POST action="/showCompany-servlet">
+            <div class="mb-3">
+                <label >ИНН</label><br>
+                <div class="mb-3">
+                    <input type="number" required id="taxId" name="taxId">
+                </div>
+                <button type="submit" class="btn btn-primary">Выполнить</button>
+            </div>
+        </form>
+
+    </div>
+
+    <button class="accordion">Показать компании, по которым рейтинги неактуальные</button>
+    <div class="panel">
+        <form th:method = POST action="/showOldRatings-servlet">
+            <label >Актуальный Отчетный период</label><br>
+            <div class="mb-3">
+                <input type="date" required id=date1 name="date">
+            </div>
+            <button type="submit" class="btn btn-primary">Выполнить</button>
+        </form>
+
+    </div>
+    <button class="accordion">Показать рейтинги, сделанные пользователем</button>
+    <div class="panel">
+        <form th:method = POST action="/showUsersRatings-servlet">
+            <label >Введите логин пользователя</label><br>
+            <div class="mb-3">
+                <input type="text" required id=text name="login">
+            </div>
+            <button type="submit" class="btn btn-primary">Выполнить</button>
+        </form>
+    </div>
+
+</div>
+
+
+<div style="display:none;" id="loader"></div>
+
+<div style="display:none;" id="myDiv" class="animate-bottom">
+    <h2>Ура!</h2>
+    <p>Информация загружена</p>
+</div>
+
+<script>
+    function openPage(pageName,elmnt,color) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].style.backgroundColor = "";
+        }
+        document.getElementById(pageName).style.display = "block";
+        elmnt.style.backgroundColor = color;
+
+    }
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+
+    //accordion-statistic section
+
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight){
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+        });
+    }
+
+</script>
+
+
+
+<script>
+    function myFunction() {
+        document.getElementById("loader").style.display = "run-in";
+
+
+//  myVar = setTimeout(showPage, 3000);
+    }
+
+    function showPage() {
+        document.getElementById("loader").style.display = "block";
+        document.getElementById("myDiv").style.display = "block";
+    }
+
+
+</script>
+
+</body>
+</html>

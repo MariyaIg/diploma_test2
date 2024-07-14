@@ -1,7 +1,7 @@
 package com.ignateva.servlet;
 
 import com.ignateva.service.FormService;
-import com.ignateva.service.UserService;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,14 +14,10 @@ import java.io.IOException;
 public class DeleteCompanyServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-
         String taxId = req.getParameter("taxId");
-
         FormService formService = new FormService();
-
         formService.deleteCompany(taxId);
-        req.getRequestDispatcher("/admin.jsp").forward(req, resp);
+        req.getRequestDispatcher("/admin.html").forward(req, resp);
     }
 }
 

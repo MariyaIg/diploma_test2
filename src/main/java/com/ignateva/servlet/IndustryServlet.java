@@ -1,6 +1,7 @@
 package com.ignateva.servlet;
 
 import com.ignateva.service.FormService;
+import com.ignateva.service.LoadService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,8 +21,9 @@ public class IndustryServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getContentType();
         Part filePart = req.getPart("file");
-        FormService formService=new FormService();
-        String mess = formService.createIndustriesFromFileExl(filePart);
+        LoadService loadService=new LoadService();
+
+        String mess = loadService.createIndustriesFromFileExl(filePart);
 
         resp.setContentType("text/html");
 

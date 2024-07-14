@@ -8,8 +8,8 @@ body{
 
 .alert {
 
-        background-color: #f44336; /* Red */
-        color: white;
+        background-color: antiquewhite; /* чтоб не отличалось */
+        color: darkred;
 
     margin-top: -500px;
     margin-left: 800px;

@@ -1,6 +1,7 @@
 package com.ignateva.servlet;
 
-import com.ignateva.service.FormService;
+
+import com.ignateva.service.LoadService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,11 +14,10 @@ import java.io.IOException;
 public class InitLoadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/admin.jsp").forward(req, resp);
+        req.getRequestDispatcher("/admin.html").forward(req, resp);
         String filePath = req.getParameter("filePath");
-        FormService formService=new FormService();
-
-        String mess = formService.createIndustriesFromFile(filePath);
+        LoadService loadService=new LoadService();
+        String mess = loadService.createIndustriesFromFile(filePath);
 
     }
 }

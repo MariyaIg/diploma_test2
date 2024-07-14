@@ -22,7 +22,7 @@ public class FindUserServlet extends HttpServlet {
 
        User user = userDao.findUserByLogin(login);
         req.setAttribute("res", user);
-        req.getRequestDispatcher("/admin.jsp").forward(req, resp);
+        req.getRequestDispatcher("/admin.html").forward(req, resp);
     }
 }
 

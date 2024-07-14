@@ -11,6 +11,13 @@ public class Rating {
     private int user_id;
     private Date calculation_date;
 
+    @Override
+    public String toString() {
+        return "Rating{" +
+                "итоговый балл=" + total_score +
+                '}';
+    }
+
     public Rating(String date, int company_id, int financial_score, int total_score, int user_id, Date calculation_date) {
         this.date = date;
         this.company_id = company_id;

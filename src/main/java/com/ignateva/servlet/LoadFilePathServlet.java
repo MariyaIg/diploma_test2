@@ -1,8 +1,8 @@
 package com.ignateva.servlet;
 
-import com.ignateva.entity.Industry;
-import com.ignateva.parser.ReadExlFile;
-import com.ignateva.service.FormService;
+
+
+import com.ignateva.service.LoadService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,23 +17,11 @@ import java.util.Map;
 public class LoadFilePathServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/admin.jsp").forward(req, resp);
+        req.getRequestDispatcher("/admin.html").forward(req, resp);
         String filePath = req.getParameter("filePath");
-        FormService formService=new FormService();
+        LoadService loadService =new LoadService();
+        String mess = loadService.updateIndustriesFromFile(filePath);
 
-        String mess = formService.updateIndustriesFromFile(filePath);
-
-        HttpSession session = req.getSession();
-        Integer progress = 0;
-        if ((session != null) &&
-                session.getAttribute("Progress") != null)
-            progress = (Integer) session.getAttribute("Progress");
-
-        progress += 10;
-        session.setAttribute("Progress", progress);
-
-        resp.setContentType("text/plain");
-        resp.getWriter().write(String.valueOf(progress));
     }
 }
 
